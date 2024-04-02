@@ -15,21 +15,16 @@ namespace FileBackupTool
         public Form1()
         {
             InitializeComponent();
+#if DEBUG
             ui_textbox_source.Text = @"C:\Users\jule\Desktop\small system";
             ui_textbox_destination.Text = @"C:\Users\jule\Desktop\small backup";
+#endif
         }
 
         private async void ui_button_scan_Click(object sender, EventArgs e)
         {
-            if (!Directory.Exists(ui_textbox_source.Text)) {
-                MessageBox.Show($"Source path does not exist ({ui_textbox_source.Text})!", "Aborted", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            if (!Directory.Exists(ui_textbox_destination.Text)) {
-                MessageBox.Show($"Destination path does not exist ({ui_textbox_destination.Text})!", "Aborted", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            if (!validatePathInput(ui_textbox_source.Text, "source")) { return; }
+            if (!validatePathInput(ui_textbox_destination.Text, "destination")) { return; }
 
             ui_button_scan.Enabled = false;
             ui_checkbox_display_all.Enabled = false;
@@ -47,6 +42,24 @@ namespace FileBackupTool
             ui_button_scan.Enabled = true;
             ui_checkbox_display_all.Enabled = true;
             ui_button_update.Enabled = true; // After scanning the files, the user can now use the "update" button
+        }
+
+        private bool validatePathInput(string path, string pathDescription)
+        {
+            if (String.IsNullOrWhiteSpace(path))
+            {
+                MessageBox.Show($"Please provide a valid {pathDescription} folder path.", "Invalid path", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            else if (!Directory.Exists(path))
+            {
+                MessageBox.Show($"The {pathDescription} folder path <{path}> does not exist!", "Invalid path", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
 
         private async Task performFileScan()
