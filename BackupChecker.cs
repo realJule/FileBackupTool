@@ -154,25 +154,28 @@ namespace FileBackupTool
         {
             var backupFileInfo = new FileInfo(file.targetPath);
 
-            // compare disk size
-            if (file.bytes != backupFileInfo.Length)
+            if (flagCalculateChecksum)
             {
-                return true;
+                if (file.checksum != getChecksum(file.targetPath))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (file.bytes != backupFileInfo.Length)
+                {
+                    return true;
+                }
+                else
+                {
+                    if (file.modifiedDate != backupFileInfo.LastWriteTime)
+                    {
+                        return true;
+                    }
+                }
             }
 
-            // compare last date of modification
-            if (file.modifiedDate != backupFileInfo.LastWriteTime)
-            {
-                return true;
-            }
-
-            // compare checksum
-            if (file.checksum != getChecksum(file.targetPath))
-            {
-                return true;
-            }
-
-            // file in backup is considered up-to-date
             return false;
         }
 

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.ui_list_files = new System.Windows.Forms.ListView();
             this.ui_button_scan = new System.Windows.Forms.Button();
             this.ui_button_update = new System.Windows.Forms.Button();
@@ -39,6 +40,7 @@
             this.ui_button_select_destination = new System.Windows.Forms.Button();
             this.ui_checkbox_display_all = new System.Windows.Forms.CheckBox();
             this.ui_checkbox_no_checksum = new System.Windows.Forms.CheckBox();
+            this.ui_tooltip_checksum = new System.Windows.Forms.ToolTip(this.components);
             this.SuspendLayout();
             // 
             // ui_list_files
@@ -49,9 +51,9 @@
             this.ui_list_files.CheckBoxes = true;
             this.ui_list_files.FullRowSelect = true;
             this.ui_list_files.HideSelection = false;
-            this.ui_list_files.Location = new System.Drawing.Point(12, 103);
+            this.ui_list_files.Location = new System.Drawing.Point(12, 127);
             this.ui_list_files.Name = "ui_list_files";
-            this.ui_list_files.Size = new System.Drawing.Size(597, 174);
+            this.ui_list_files.Size = new System.Drawing.Size(597, 150);
             this.ui_list_files.TabIndex = 0;
             this.ui_list_files.UseCompatibleStateImageBehavior = false;
             this.ui_list_files.View = System.Windows.Forms.View.Details;
@@ -63,7 +65,7 @@
             this.ui_button_scan.BackColor = System.Drawing.SystemColors.ControlLight;
             this.ui_button_scan.Location = new System.Drawing.Point(200, 74);
             this.ui_button_scan.Name = "ui_button_scan";
-            this.ui_button_scan.Size = new System.Drawing.Size(409, 23);
+            this.ui_button_scan.Size = new System.Drawing.Size(409, 44);
             this.ui_button_scan.TabIndex = 1;
             this.ui_button_scan.Text = "Scan";
             this.ui_button_scan.UseVisualStyleBackColor = false;
@@ -147,19 +149,21 @@
             this.ui_checkbox_display_all.AutoSize = true;
             this.ui_checkbox_display_all.Location = new System.Drawing.Point(15, 78);
             this.ui_checkbox_display_all.Name = "ui_checkbox_display_all";
-            this.ui_checkbox_display_all.Size = new System.Drawing.Size(87, 17);
+            this.ui_checkbox_display_all.Size = new System.Drawing.Size(185, 17);
             this.ui_checkbox_display_all.TabIndex = 9;
-            this.ui_checkbox_display_all.Text = "Show all files";
+            this.ui_checkbox_display_all.Text = "Also show files that are up-to-date";
             this.ui_checkbox_display_all.UseVisualStyleBackColor = true;
             // 
             // ui_checkbox_no_checksum
             // 
             this.ui_checkbox_no_checksum.AutoSize = true;
-            this.ui_checkbox_no_checksum.Location = new System.Drawing.Point(108, 78);
+            this.ui_checkbox_no_checksum.Location = new System.Drawing.Point(15, 101);
             this.ui_checkbox_no_checksum.Name = "ui_checkbox_no_checksum";
-            this.ui_checkbox_no_checksum.Size = new System.Drawing.Size(92, 17);
+            this.ui_checkbox_no_checksum.Size = new System.Drawing.Size(177, 17);
             this.ui_checkbox_no_checksum.TabIndex = 10;
-            this.ui_checkbox_no_checksum.Text = "No checksum";
+            this.ui_checkbox_no_checksum.Text = "Do not calculate file checksums";
+            this.ui_tooltip_checksum.SetToolTip(this.ui_checkbox_no_checksum, "Instead use the file size and last date of modification in order to detect modifi" +
+        "ed files.");
             this.ui_checkbox_no_checksum.UseVisualStyleBackColor = true;
             // 
             // Form1
@@ -202,6 +206,7 @@
         private System.Windows.Forms.Button ui_button_select_destination;
         private System.Windows.Forms.CheckBox ui_checkbox_display_all;
         private System.Windows.Forms.CheckBox ui_checkbox_no_checksum;
+        private System.Windows.Forms.ToolTip ui_tooltip_checksum;
     }
 }
 
