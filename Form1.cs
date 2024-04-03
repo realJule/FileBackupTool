@@ -181,7 +181,7 @@ namespace FileBackupTool
         {
             int index = ui_list_files.Items.IndexOfKey(item.getUiKey());
             ui_list_files.Items[index].SubItems[0].Text = item.status.ToString();
-            ui_list_files.Items[index].SubItems.Add(item.targetPathMovedFrom);
+            ui_list_files.Items[index].SubItems.Add(item.targetPathMovedFrom.Replace(ui_textbox_destination.Text, ""));
         }
 
         private void resizeFileListViewColumns()
