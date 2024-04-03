@@ -169,7 +169,7 @@ namespace FileBackupTool
                 }
                 else
                 {
-                    if (file.modifiedDate != backupFileInfo.LastWriteTime)
+                    if (areModifiedDatesEqual(file.modifiedDate, backupFileInfo.LastWriteTime))
                     {
                         return true;
                     }
@@ -177,6 +177,28 @@ namespace FileBackupTool
             }
 
             return false;
+        }
+
+        private static bool areModifiedDatesEqual(DateTime first, DateTime other)
+        {
+            if (first == other)
+            {
+                return true;
+            }
+            // Modified date of a copied file may differ (by up to 2 seconds) from it's source file depending on the file system due to rounding differences.
+            else if (Math.Abs(first.Second - other.Second) <= 2)
+            {
+                if (truncateSeconds(first) == truncateSeconds(other))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private static DateTime truncateSeconds(DateTime d)
+        {
+            return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, 0);
         }
 
         private async Task checkForDeletedOrMovedFiles(string source, string target)
@@ -251,7 +273,7 @@ namespace FileBackupTool
                     else
                     {
                         if ((file.getName() == other_file.getName()) &&
-                            (file.modifiedDate == other_file.modifiedDate) &&
+                            (areModifiedDatesEqual(file.modifiedDate, other_file.modifiedDate)) &&
                             (file.bytes == other_file.bytes))
                         {
                             return other_file;
