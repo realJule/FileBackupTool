@@ -45,15 +45,11 @@ namespace FileBackupTool
                     removeTargetDirectoryRecursiveIfEmpty(Path.GetDirectoryName(file.targetPathMovedFrom));
                     break;
                 case FileStatus.Deleted:
-                    {
-                        File.Move(file.targetPath, getArchiveFilePath(file));
-                    }
+                    File.Move(file.targetPath, getArchiveFilePath(file));
                     break;
                 case FileStatus.Modified:
-                    {
-                        File.Move(file.targetPath, getArchiveFilePath(file));
-                        File.Copy(file.sourcePath, file.targetPath, true);
-                    }
+                    File.Move(file.targetPath, getArchiveFilePath(file));
+                    File.Copy(file.sourcePath, file.targetPath, true);
                     break;
                 default:
                     break;
