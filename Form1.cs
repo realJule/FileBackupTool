@@ -16,8 +16,8 @@ namespace FileBackupTool
         {
             InitializeComponent();
 #if DEBUG
-            ui_textbox_source.Text = @"C:\Users\jule\Desktop\small system";
-            ui_textbox_destination.Text = @"C:\Users\jule\Desktop\small backup";
+            ui_textbox_source.Text = @"C:\Users\User\Desktop\backuptool_debug\system1";
+            ui_textbox_destination.Text = @"C:\Users\User\Desktop\backuptool_debug\backup1";
 #endif
         }
 

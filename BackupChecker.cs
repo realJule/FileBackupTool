@@ -152,8 +152,6 @@ namespace FileBackupTool
 
         private bool isFileModified(DetectedFile file)
         {
-            var backupFileInfo = new FileInfo(file.targetPath);
-
             if (flagCalculateChecksum)
             {
                 if (file.checksum != getChecksum(file.targetPath))
@@ -163,13 +161,14 @@ namespace FileBackupTool
             }
             else
             {
+                var backupFileInfo = new FileInfo(file.targetPath);
                 if (file.bytes != backupFileInfo.Length)
                 {
                     return true;
                 }
                 else
                 {
-                    if (areModifiedDatesEqual(file.modifiedDate, backupFileInfo.LastWriteTime))
+                    if (!areModifiedDatesEqual(file.modifiedDate, backupFileInfo.LastWriteTime))
                     {
                         return true;
                     }
@@ -181,24 +180,17 @@ namespace FileBackupTool
 
         private static bool areModifiedDatesEqual(DateTime first, DateTime other)
         {
+            first = first.ToUniversalTime();
+            other = other.ToUniversalTime();
+
             if (first == other)
             {
                 return true;
             }
-            // Modified date of a copied file may differ (by up to 2 seconds) from it's source file depending on the file system due to rounding differences.
-            else if (Math.Abs(first.Second - other.Second) <= 2)
-            {
-                if (truncateSeconds(first) == truncateSeconds(other))
-                {
-                    return true;
-                }
-            }
-            return false;
-        }
 
-        private static DateTime truncateSeconds(DateTime d)
-        {
-            return new DateTime(d.Year, d.Month, d.Day, d.Hour, d.Minute, 0);
+            // Modified date of a copied file may differ (by up to 2 seconds) from it's source file
+            // depending on the file system due to rounding differences.
+            return Math.Abs((first - other).TotalSeconds) <= 2;
         }
 
         private async Task checkForDeletedOrMovedFiles(string source, string target)
